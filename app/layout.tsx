@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider, SignInButton, Show, UserButton } from '@clerk/nextjs';
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import "./globals.css";
 import RegisterSW from "@/components/RegisterSW";
 
@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'CareerForge - Job Tracker & Assistant',
-  description: 'Track applications, prep for interviews, and manage workflow artifacts.',
-}
+  title: "CareerForge - Job Tracker & Assistant",
+  description: "Track applications, prep for interviews, and manage workflow artifacts.",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -33,18 +33,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </span>
             </div>
             <div>
-              <Show when="signed-out">
+              <SignedOut>
                 <SignInButton mode="modal" />
-              </Show>
-              <Show when="signed-in">
+              </SignedOut>
+              <SignedIn>
                 <UserButton />
-              </Show>
+              </SignedIn>
             </div>
           </header>
           <main className="flex-1 max-w-7xl w-full mx-auto p-6">{children}</main>
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }
-

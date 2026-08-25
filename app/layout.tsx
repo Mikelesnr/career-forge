@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ClerkProvider>
       <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
         <body className="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
-          <RegisterSW /> {/* 2. Render it right inside the body here */}
+          {/* <RegisterSW /> */}
           <header className="border-b border-slate-800 bg-slate-900 px-6 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-3">
               <span className="font-bold text-xl tracking-tight text-indigo-400">CareerForge</span>

@@ -1,6 +1,8 @@
 const CACHE_NAME = 'careerforge-v1';
+// Note: '/' is excluded here on purpose. It's behind Clerk auth, so an
+// unauthenticated fetch redirects cross-origin to the hosted sign-in page,
+// which has no CORS headers and makes the whole addAll() call fail.
 const ASSETS = [
-  '/',
   '/manifest.json'
 ];
 
@@ -8,7 +10,14 @@ const ASSETS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
+      // Cache each asset independently so one failure doesn't block install.
+      return Promise.all(
+        ASSETS.map((url) =>
+          cache.add(url).catch((err) => {
+            console.warn(`[sw] Failed to precache ${url}:`, err);
+          })
+        )
+      );
     })
   );
   self.skipWaiting();

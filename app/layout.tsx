@@ -21,10 +21,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
         <body className="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
-          {/* <RegisterSW /> */}
+          <RegisterSW />
           <header className="border-b border-slate-800 bg-slate-900 px-6 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-3">
               <span className="font-bold text-xl tracking-tight text-indigo-400">CareerForge</span>

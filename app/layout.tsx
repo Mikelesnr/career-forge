@@ -19,6 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "CareerForge - Job Tracker & Assistant",
   description: "Track applications, prep for interviews, and manage workflow artifacts.",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

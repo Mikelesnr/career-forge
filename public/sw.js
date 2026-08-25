@@ -1,16 +1,12 @@
-const CACHE_NAME = 'careerforge-v1';
-// Note: '/' is excluded here on purpose. It's behind Clerk auth, so an
-// unauthenticated fetch redirects cross-origin to the hosted sign-in page,
-// which has no CORS headers and makes the whole addAll() call fail.
+const CACHE_NAME = 'careerforge-v2';
 const ASSETS = [
   '/manifest.json'
 ];
 
-// Install event - caching basic shell
+// Install event - caching static assets safely
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // Cache each asset independently so one failure doesn't block install.
       return Promise.all(
         ASSETS.map((url) =>
           cache.add(url).catch((err) => {
@@ -35,10 +31,25 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch event - network first, falling back to cache
+// Fetch event - network first for everything dynamic, cache fallback for assets
 self.addEventListener('fetch', (event) => {
-  // Skip cross-origin requests like Clerk API or Supabase
-  if (!event.request.url.startsWith(self.location.origin)) return;
+  const url = new URL(event.request.url);
+
+  // Only handle GET requests and requests from our own origin
+  if (event.request.method !== 'GET' || url.origin !== self.location.origin) {
+    return;
+  }
+
+  // Skip Clerk auth routes, API routes, and Next.js internal chunks from SW caching
+  if (
+    url.pathname.startsWith('/_next/') ||
+    url.pathname.startsWith('/api/') ||
+    url.pathname.includes('sign-in') ||
+    url.pathname.includes('sign-up') ||
+    url.pathname.includes('__clerk')
+  ) {
+    return;
+  }
 
   event.respondWith(
     fetch(event.request)

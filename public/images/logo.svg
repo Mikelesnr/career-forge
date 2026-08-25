@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background Card with Rounded Corners -->
+  <rect width="512" height="512" rx="120" fill="#020617"/>
+  
+  <!-- Subtle Inner Border -->
+  <rect x="16" y="16" width="480" height="480" rx="104" fill="none" stroke="#1e293b" stroke-width="8"/>
+
+  <!-- Clean CF Monogram Text -->
+  <text x="256" y="325" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="220" text-anchor="middle" fill="#ffffff" letter-spacing="-5">
+    <tspan fill="#6366f1">C</tspan><tspan fill="#38bdf8">F</tspan>
+  </text>
+</svg>

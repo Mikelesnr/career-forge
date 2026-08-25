@@ -1,0 +1,38 @@
+datasource db {
+  provider  = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Application {
+  id              String   @id @default(cuid())
+  userId          String   // Clerk User ID
+  companyName     String
+  positionTitle   String
+  jobUrl          String
+  companyWebsite  String?
+  companyLogoUrl  String?
+  companyMotto    String?
+  status          String   @default("APPLIED") // APPLIED, INTERVIEWING, OFFERED, REJECTED
+  resumeLink      String?  // Google Drive, Dropbox link
+  coverLetterLink String?  // Link to cover letter payload or doc
+  interviewNotes  String?  // Markdown/Text for interview questions & prompts
+  feedbackNotes   String?  // Feedback notes if rejected or passed over
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model User {
+  id        String   @id // Clerk's user ID (e.g., user_2abc...)
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Optional: Link your applications to your local user table
+  // applications Application[] 
+}
